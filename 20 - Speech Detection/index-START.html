@@ -10,7 +10,37 @@
   </div>
 
 <script>
-  window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+   window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+ 
+  const recongnition = new window.SpeechRecognition();
+  recongnition.interimResults = true;
+
+  let p = document.createElement('p');
+  const words = document.querySelector('.words');
+  words.appendChild(p);
+
+  recongnition.addEventListener('result', e => {
+   
+   const transcript = Array.from(e.results)
+    .map(results => results[0])
+    .map(results => results.transcript)
+    .join('')
+
+    p.textContent = transcript;
+    if(e.results[0].isFinal) {
+      p = document.createElement('p');
+      words.appendChild(p);
+    }
+    
+    if (transcript.includes('poop')) {
+      console.log('💩💩💩💩💩💩');
+    }
+    console.log(transcript);
+  });
+ 
+  recongnition.addEventListener('end', recongnition.start);
+  recongnition.start();
 
 
 </script>
